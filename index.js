@@ -215,3 +215,46 @@ document.addEventListener('DOMContentLoaded', function() {
         cartModal.style.display = 'none';
     });
 });
+
+let part1 = document.getElementById("new_arrivals");
+let part2 = `
+<div id = "part2" class = "section-p1">
+<h3> Lorem ipsum dolor sit amet.</h3>
+<div></div>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, ducimus at sed ad eveniet quae?</p>
+<button id = "btn">LEARN MORE</button>
+</div>
+`
+part1.insertAdjacentHTML("beforebegin", part2);
+
+
+let part3 = document.getElementById("newsletter");
+let div = document.createElement('div');
+div.id = "part3_div"
+div.classList.add("part3-div");
+let img = document.createElement('img');
+img.src = "images/download.jpg";
+img.alt = "shoe_image";
+let div2 = document.createElement('div');
+div2.id = "right_side"
+let h2 = document.createElement('h2');
+h2.classList.add("part3-h2")
+h2.textContent = "Dynamic Performance Running Shoes";
+div2.appendChild(h2);
+p1 = document.createElement('p');
+p1.classList.add("part3-p1");
+p2 = document.createElement('p');
+p2.classList.add("part3-p1");
+p3 = document.createElement('p');
+p3.classList.add("part3-p1");
+
+p1.textContent = "Step into comfort and style with these high-performance running shoes, designed to elevate your athletic experience. Featuring a breathable mesh upper in a stylish navy blue with striking orange accents, these shoes provide superior ventilation to keep your feet cool during intense workouts. The sleek and modern design ensures a snug fit, offering both functionality and fashion in one package.";
+p2.textContent = "The cushioned midsole and responsive insole technology provide maximum support and shock absorption, reducing strain on your feet and joints. Whether you're hitting the gym, running on trails, or walking through the city, these shoes ensure a smooth and comfortable ride. The lightweight structure enhances agility, making them ideal for daily wear and high-energy activities.";
+p3.textContent = "Durability meets performance with a high-traction rubber outsole that offers excellent grip on various surfaces. The orange-accented sole is engineered for enhanced stability, ensuring confident strides with every step. Whether you're an athlete or a casual walker, these running shoes deliver the perfect blend of style, comfort, and durability for any occasion.";
+
+part3.parentNode.insertBefore(div, part3);
+div.appendChild(img);
+div.appendChild(div2);
+div2.appendChild(p1);
+div2.appendChild(p2);
+div2.appendChild(p3);

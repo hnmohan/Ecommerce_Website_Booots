@@ -610,6 +610,8 @@ body{
         flex-direction: column;
         align-items: center;
     }
+    
+    
 }
 
 @media (max-width: 480px) {
@@ -637,6 +639,10 @@ body{
     .footer-column {
         text-align: center;
     }
+
+    
+
+
 }
 
 /* Modal Styles */
@@ -723,3 +729,107 @@ body{
 #purchase:hover {
     background-color: #2f211a;
 }
+
+
+
+/* Default styles */
+#part2 {
+    text-align: center;
+    padding: 20px;
+    background-color: red;
+    color: white;
+}
+
+#part2 div{
+    width: 10%;
+    margin: 0 auto;
+    margin-top: 10px;
+    height: 4px;
+    background-color: white;
+}
+
+#part2 h3 {
+    font-size: 24px;
+    color: #333;
+}
+
+#btn {
+    padding: 10px 30px;
+    font-size: 16px;
+    background-color: #ff5a5f;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+#btn:hover {
+    background-color: #e0484d;
+}
+
+/* Default styling for large screens */
+#part3_div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 0;
+    background-color: #ffffff;
+    height: 100vh; /* Full viewport height */
+    padding-right: 40px;
+}
+
+#part3_div img {
+    width: 50%; /* Covers half of the parent width */
+    height: 100%; /* Takes full height of the parent div */
+    object-fit: cover; /* Ensures the image fills the space properly */
+    /* border-radius: 10px; */
+}
+
+#right_side {
+    width: 50%;
+    padding: 20px;
+}
+
+/* Responsive Design for Medium Screens (Tablets) */
+@media (max-width: 1024px) {
+    #part3_div {
+        flex-direction: column; /* Stack items vertically */
+        height: auto; /* Allow height to adjust */
+    }
+
+    #part3_div img {
+        width: 100%; /* Full width */
+        height: 300px; /* Set a fixed height for better layout */
+    }
+
+    #right_side {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Responsive Design for Small Screens (Mobile Phones) */
+@media (max-width: 768px) {
+    #part3_div {
+        padding: 20px;
+    }
+
+    #part3_div img {
+        height: 250px; /* Reduce height further for small screens */
+    }
+}
+
+
+
+
+.part3-h2 {
+    font-size: 26px;
+    color: #222;
+}
+
+.part3-p1 {
+    font-size: 16px;
+    color: #555;
+}
+
