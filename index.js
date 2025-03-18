@@ -194,6 +194,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Clear Cart
     document.getElementById('clear-cart').addEventListener('click', () => {
+        if(cart.length === 0) {
+            alert('Your cart is empty!. Add Something First');
+            return;
+        }
         cart = [];
         alert('Your cart has been cleared.');
         updateCartDisplay();
@@ -202,7 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Purchase
     document.getElementById('purchase').addEventListener('click', () => {
         if(cart.length === 0) {
-            alert('Your cart is empty!');
+            alert('Your cart is empty!. Add Something First');
             return;
         }
         alert('Thank you for your purchase!');

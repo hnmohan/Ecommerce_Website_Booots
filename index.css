@@ -263,6 +263,15 @@ body{
     gap: 20px 25px;
 }
 
+.product:hover{
+    background-color: turquoise;
+}
+
+.product button:hover{
+    background-color: darkgray;
+    color: white;
+}
+
 #new_arrivals {
     text-align: center;
 }
