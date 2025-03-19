@@ -139,14 +139,18 @@ document.addEventListener('DOMContentLoaded', function() {
         
         cart.forEach((item, index) => {
             const div = document.createElement('div');
+            const Total_Per_Item = (item.price * item.quantity).toLocaleString();
+
             div.className = 'cart-item';
             div.innerHTML = `
                 <div>
                     <h4>${item.name}</h4>
-                    <p>Rs. ${item.price.toLocaleString()}</p>
+                    <p>Rs. ${Total_Per_Item}</p>
                 </div>
                 <div>
                     <span>Qty: ${item.quantity}</span>
+
+                    <button class="decrease-qty" data-index="${index}">-</button>
                     <button class="increase-qty" data-index="${index}">+</button>
                     <button class="delete-item" data-index="${index}">Delete</button>
                 </div>
@@ -168,6 +172,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 increaseQuantity(index);
             });
         });
+        document.querySelectorAll('.decrease-qty').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const index = e.target.getAttribute('data-index');
+                decreaseQuantity(index);
+            });
+        });
     }
 
     // Delete Item from Cart
@@ -181,6 +191,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Increase Quantity of an Item
     function increaseQuantity(index) {
         cart[index].quantity += 1; // Increase the quantity of the item at the specified index
+        updateCartDisplay();
+    }
+    function decreaseQuantity(index) {
+        if(cart[index].quantity === 1){
+            deleteItemFromCart(index)
+        }
+        cart[index].quantity -= 1; // Increase the quantity of the item at the specified index
         updateCartDisplay();
     }
 
