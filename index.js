@@ -45,64 +45,72 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Newsletter Form Validation
-    const newsletterForm = document.querySelector('#newsletter form');
-    newsletterForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const emailInput = document.querySelector('#newsletter input[type="email"]');
-        const email = emailInput.value.trim();
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+   // Newsletter Form Validation
+const newsletterForm = document.querySelector('#newsletter form');
+newsletterForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const emailInput = document.querySelector('#newsletter input[type="email"]');
+    const email = emailInput.value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        if (!email) {
-            alert('Please enter your email address.');
-            return;
-        }
+    if (!email) {
+        alert('Please enter your email address.');
+        return;
+    }
 
-        if (!emailRegex.test(email)) {
-            alert('Please enter a valid email address (e.g., name@example.com).');
-            return;
-        }
+    if (!emailRegex.test(email)) {
+        alert('Please enter a valid email address (e.g., name@example.com).');
+        return;
+    }
 
-        alert('Thank you for subscribing to our newsletter!');
-        newsletterForm.reset();
+    // ✅ Send GA4 event
+    gtag('event', 'newsletter_subscribe', {
+        email: email
     });
 
-    // Contact Form Validation
-    const contactForm = document.querySelector('#contact form');
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Get form values
-        const name = document.querySelector('#contact input[type="text"]').value.trim();
-        const email = document.querySelector('#contact input[type="email"]').value.trim();
-        const message = document.querySelector('#contact textarea').value.trim();
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    alert('Thank you for subscribing to our newsletter!');
+    newsletterForm.reset();
+});
 
-        // Validation checks
-        if (!name) {
-            alert('Please enter your name.');
-            return;
-        }
+// Contact Form Validation
+const contactForm = document.querySelector('#contact form');
+contactForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const name = document.querySelector('#contact input[type="text"]').value.trim();
+    const email = document.querySelector('#contact input[type="email"]').value.trim();
+    const message = document.querySelector('#contact textarea').value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        if (!email) {
-            alert('Please enter your email address.');
-            return;
-        }
+    if (!name) {
+        alert('Please enter your name.');
+        return;
+    }
 
-        if (!emailRegex.test(email)) {
-            alert('Please enter a valid email address (e.g., name@example.com).');
-            return;
-        }
+    if (!email) {
+        alert('Please enter your email address.');
+        return;
+    }
 
-        if (!message) {
-            alert('Please enter your message.');
-            return;
-        }
+    if (!emailRegex.test(email)) {
+        alert('Please enter a valid email address (e.g., name@example.com).');
+        return;
+    }
 
-        // If all validations pass
-        alert('Thank you for your message! We will get back to you soon.');
-        contactForm.reset();
+    if (!message) {
+        alert('Please enter your message.');
+        return;
+    }
+
+    // ✅ Send GA4 event
+    gtag('event', 'contact_form_submit', {
+        name: name,
+        email: email
     });
+
+    alert('Thank you for your message! We will get back to you soon.');
+    contactForm.reset();
+});
 
     // Cart Management
     let cart = [];
