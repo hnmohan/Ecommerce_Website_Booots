@@ -1,9 +1,9 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Navigation Active Class Handling
     const navItems = document.querySelectorAll('#navbar li a');
 
     navItems.forEach(navItem => {
-        navItem.addEventListener('click', function(e) {
+        navItem.addEventListener('click', function (e) {
             // Prevent default behavior of anchor links
             e.preventDefault();
 
@@ -21,6 +21,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    async function sha256(input) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(input.trim().toLowerCase());
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
 
     // Cart Modal Handling
     const cartModal = document.getElementById('cart-modal');
@@ -40,77 +49,82 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Close when clicking outside
     window.addEventListener('click', (e) => {
-        if(e.target === cartModal) {
+        if (e.target === cartModal) {
             cartModal.style.display = 'none';
         }
     });
 
-   // Newsletter Form Validation
-const newsletterForm = document.querySelector('#newsletter form');
-newsletterForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const emailInput = document.querySelector('#newsletter input[type="email"]');
-    const email = emailInput.value.trim();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Newsletter Form Validation
+    const newsletterForm = document.querySelector('#newsletter form');
+    newsletterForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const emailInput = document.querySelector('#newsletter input[type="email"]');
+        const email = emailInput.value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!email) {
-        alert('Please enter your email address.');
-        return;
-    }
+        if (!email) {
+            alert('Please enter your email address.');
+            return;
+        }
 
-    if (!emailRegex.test(email)) {
-        alert('Please enter a valid email address (e.g., name@example.com).');
-        return;
-    }
+        if (!emailRegex.test(email)) {
+            alert('Please enter a valid email address (e.g., name@example.com).');
+            return;
+        }
 
-    // ✅ Send GA4 event
-    gtag('event', 'newsletter_subscribe', {
-        email: email
+        // ✅ Send GA4 event
+        sha256(email).then(hashedEmail => {
+            gtag('event', 'newsletter_subscribe', {
+                email: hashedEmail
+            });
+        });
+
+
+        alert('Thank you for subscribing to our newsletter!');
+        newsletterForm.reset();
     });
 
-    alert('Thank you for subscribing to our newsletter!');
-    newsletterForm.reset();
-});
+    // Contact Form Validation
+    const contactForm = document.querySelector('#contact form');
+    contactForm.addEventListener('submit', function (e) {
+        e.preventDefault();
 
-// Contact Form Validation
-const contactForm = document.querySelector('#contact form');
-contactForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const name = document.querySelector('#contact input[type="text"]').value.trim();
-    const email = document.querySelector('#contact input[type="email"]').value.trim();
-    const message = document.querySelector('#contact textarea').value.trim();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const name = document.querySelector('#contact input[type="text"]').value.trim();
+        const email = document.querySelector('#contact input[type="email"]').value.trim();
+        const message = document.querySelector('#contact textarea').value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!name) {
-        alert('Please enter your name.');
-        return;
-    }
+        if (!name) {
+            alert('Please enter your name.');
+            return;
+        }
 
-    if (!email) {
-        alert('Please enter your email address.');
-        return;
-    }
+        if (!email) {
+            alert('Please enter your email address.');
+            return;
+        }
 
-    if (!emailRegex.test(email)) {
-        alert('Please enter a valid email address (e.g., name@example.com).');
-        return;
-    }
+        if (!emailRegex.test(email)) {
+            alert('Please enter a valid email address (e.g., name@example.com).');
+            return;
+        }
 
-    if (!message) {
-        alert('Please enter your message.');
-        return;
-    }
+        if (!message) {
+            alert('Please enter your message.');
+            return;
+        }
 
-    // ✅ Send GA4 event
-    gtag('event', 'contact_form_submit', {
-        name: name,
-        email: email
+        // ✅ Send GA4 event
+         Promise.all([sha256(name), sha256(email)]).then(([hashedName, hashedEmail]) => {
+            gtag('event', 'contact_form_submit', {
+                name: hashedName,
+                email: hashedEmail
+            });
+        });
+
+        alert('Thank you for your message! We will get back to you soon.');
+        contactForm.reset();
     });
-
-    alert('Thank you for your message! We will get back to you soon.');
-    contactForm.reset();
-});
 
     // Cart Management
     let cart = [];
@@ -144,7 +158,7 @@ contactForm.addEventListener('submit', function(e) {
     function updateCartDisplay() {
         const cartItems = document.getElementById('cart-items');
         cartItems.innerHTML = '';
-        
+
         cart.forEach((item, index) => {
             const div = document.createElement('div');
             const Total_Per_Item = (item.price * item.quantity).toLocaleString();
@@ -202,7 +216,7 @@ contactForm.addEventListener('submit', function(e) {
         updateCartDisplay();
     }
     function decreaseQuantity(index) {
-        if(cart[index].quantity === 1){
+        if (cart[index].quantity === 1) {
             deleteItemFromCart(index)
         }
         cart[index].quantity -= 1; // Increase the quantity of the item at the specified index
@@ -219,7 +233,7 @@ contactForm.addEventListener('submit', function(e) {
 
     // Clear Cart
     document.getElementById('clear-cart').addEventListener('click', () => {
-        if(cart.length === 0) {
+        if (cart.length === 0) {
             alert('Your cart is empty!. Add Something First');
             return;
         }
@@ -230,7 +244,7 @@ contactForm.addEventListener('submit', function(e) {
 
     // Purchase
     document.getElementById('purchase').addEventListener('click', () => {
-        if(cart.length === 0) {
+        if (cart.length === 0) {
             alert('Your cart is empty!. Add Something First');
             return;
         }
