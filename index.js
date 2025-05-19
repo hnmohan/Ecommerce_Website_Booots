@@ -72,12 +72,15 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        // ✅ Send GA4 event
-        sha256(email).then(hashedEmail => {
-            gtag('event', 'newsletter_subscribe', {
-                email: hashedEmail
-            });
-        });
+        // // ✅ Send GA4 event
+        // sha256(email).then(hashedEmail => {
+        //     gtag('event', 'newsletter_subscribe', {
+        //         user_data: {
+        //             email: hashedEmail
+
+        //         }
+        //     });
+        // });
 
 
         alert('Thank you for subscribing to our newsletter!');
@@ -114,13 +117,17 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        // ✅ Send GA4 event
-         Promise.all([sha256(name), sha256(email)]).then(([hashedName, hashedEmail]) => {
-            gtag('event', 'contact_form_submit', {
-                name: hashedName,
-                email: hashedEmail
-            });
-        });
+        // // ✅ Send GA4 event
+        //  Promise.all([sha256(name), sha256(email)]).then(([hashedName, hashedEmail]) => {
+        //     gtag('event', 'contact_form_submit', {
+        //         user_data: {
+                    
+        //             name: hashedName,
+        //             email: hashedEmail
+
+        //         }
+        //     });
+        // });
 
         alert('Thank you for your message! We will get back to you soon.');
         contactForm.reset();
